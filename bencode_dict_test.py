@@ -29,8 +29,8 @@ if type(value) is str and value == "Something Wrong!":
 else:
 	error_count += 1
 
-value = bencode.debencodedict("d4:spami2e6:saleemi3ee")
-if type(value) is dict and set(value) == set({'saleem': 3, 'spam': 2}):
+value = bencode.debencodedict("d8:announce35:udp://tracker.openbittorrent.com:8013:creation datei1327049827e6:lengthi20e4:name10:sample.txt12:piece lengthi65536e6:pieces20:asdfghjklpoiuytrewqae")
+if type(value) is dict and set(value) == set({'piece length': 65536, 'name': 'sample.txt', 'creation date': 1327049827, 'pieces': 'asdfghjklpoiuytrewqa', 'length': 20, 'announce': 'udp://tracker.openbittorrent.com:80'}):
 	assertion_count += 1
 else:
 	error_count += 1
