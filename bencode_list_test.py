@@ -1,5 +1,7 @@
 import bencode
 
+print "\n-------List--------"
+
 assertion_count = 0
 error_count = 0
 
@@ -11,6 +13,12 @@ else:
 
 value = bencode.debencodelist("l12:spamisforsal6:saleeme")
 if type(value) is list and set(value) == set(['spamisforsal','saleem']):	
+	assertion_count += 1
+else:
+	error_count += 1
+
+value = bencode.debencodelist("l4:spami2ei3e6:saleeme")
+if type(value) is list and set(value) == set(['spam', 2, 3, 'saleem']):
 	assertion_count += 1
 else:
 	error_count += 1

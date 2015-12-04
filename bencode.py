@@ -27,27 +27,56 @@ def debencodelist(ben):#Decode bencoded List
                         el += ben[i]
                         i += 1
                     i -= 1
-                if RepresentsInt(ben[i]) and ben[i+1] == ":":
-                    listElement = ""
-                    elementLength = int(el)
-                    i+=2
-                    if i+elementLength == len(ben):
-                        return "Something Wrong!"
+                    if ben[i+1] == ":":
+                        listElement = ""
+                        elementLength = int(el)
+                        i+=2
+                        if i+elementLength == len(ben):
+                            return "Something Wrong!"
+                        else:
+                            # print "Element Length: "+str(elementLength),
+                            # print ",Element is: ",
+                            for x in range(i,i+elementLength):
+                                # print ben[x],
+                                listElement += ben[x]
+                            decoded_list.append(listElement)    
+                            # print "\n"    
+                            i += elementLength    
+                            # print "Saleem"
+                            # print i
+                            # print elementLength    
+                            # print len(ben)
+                            if i == len(ben)-1:
+                                break
+                elif ben[i] == "i" and ( ben[i+1] == "+" or ben[i+1] == "-" or RepresentsInt(ben[i+1])) and ben[i+2] != ":":
+                    bencoded_int = "i"
+                    x = 0
+                    if ben[i+1] == "+":
+                        x = i + 2
+                        bencoded_int += "+" 
+                    elif ben[i+1] == "-":
+                        x = i + 2
+                        bencoded_int += "-"
                     else:
-                        # print "Element Length: "+str(elementLength),
-                        # print ",Element is: ",
-                        for x in range(i,i+elementLength):
-                            # print ben[x],
-                            listElement += ben[x]
-                        decoded_list.append(listElement)    
-                        # print "\n"    
-                        i += elementLength    
-                        # print "Saleem"
-                        # print i
-                        # print elementLength    
-                        # print len(ben)
-                        if i == len(ben)-1:
-                            break
+                        x = i + 1    
+                        # print "X is: " + str(x)
+                        # print ben[x]
+                    while(RepresentsInt( ben[x] )):
+                        # print "ben[x] in is:" + str(ben[x])
+                        # print "x in is" + str(x)
+                        x += 1    
+                    # print ben[i]
+                    to_decode = ben[i:x+1]
+                    # print to_decode + " value"
+                    decoded_int = debencodeint(to_decode)
+                    # print decoded_int
+                    decoded_list.append(int(decoded_int))
+                    # print decoded_list
+                    i = x + 1
+                    # print ben[i] + str(i)
+                    continue
+                elif i == len(ben) - 1:    
+                    return decoded_list            
         return decoded_list                    
 
 def debencodedict(ben):
@@ -65,35 +94,70 @@ def debencodedict(ben):
         i = 1
         while i < len(ben):
             #print ben[i]+" : "+str(i)
+            # print ben[i] + " Starting " + str(i)
             if i != 0 and i != len(ben)-1:
                 el = ""
                 if RepresentsInt(ben[i]):
+                    # print "Reaching"
                     ef = ben[i]
                     while (RepresentsInt(ben[i])):
                         el += ben[i]
                         i += 1
                     i -= 1        
-                if RepresentsInt(ben[i]) and ben[i+1] == ":":
-                    dict_value = ""
-                    elementLength = int(el)#int(ben[i])
-                    i+=2
-                    if i+elementLength == len(ben):
-                        return "Something Wrong!"
-                    else:
-                        for x in range(i,i+elementLength):
-                            dict_value += ben[x]
-                        if past_key != "":
-                            decoded_dict[past_key] = dict_value
-                      #      print decoded_dict
-                            past_key = ""
-                            key = True
+                    if ben[i+1] == ":":
+                        # print "Reaching"
+                        dict_value = ""
+                        elementLength = int(el)#int(ben[i])
+                        i+=2
+                        if i+elementLength == len(ben):
+                            return "Something Wrong!"
+                        else:
+                            # print "Reaching"
+                            # print "elementLength" + str(elementLength)
+                            for x in range(i,i+elementLength):
+                                dict_value += ben[x]
+                            if past_key != "":
+                                decoded_dict[past_key] = dict_value
+                                # print decoded_dict
+                                past_key = ""
+                                key = True
+                                i += elementLength
+                                continue        
+                            if key:
+                                past_key = dict_value
+                                key = False
                             i += elementLength
-                            continue        
-                        if key:
-                            past_key = dict_value
-                            key = False
-                        i += elementLength
-
+                elif ben[i] == "i" and ( ben[i+1] == "+" or ben[i+1] == "-" or RepresentsInt(ben[i+1])) and ben[i+1] != ":" and past_key != "":
+                    bencoded_int = "i"
+                    x = 0
+                    if ben[i+1] == "+":
+                        x = i + 2
+                        bencoded_int += "+" 
+                    elif ben[i+1] == "-":
+                        x = i + 2
+                        bencoded_int += "-"
+                    else:
+                        x = i + 1    
+                        # print "X is: " + str(x)
+                        # print ben[x]
+                    while(RepresentsInt( ben[x] )):
+                        # print "ben[x] in is:" + str(ben[x])
+                        # print "x in is" + str(x)
+                        x += 1    
+                    # print ben[i]
+                    to_decode = ben[i:x+1]
+                    # print to_decode + " value"
+                    decoded_int = debencodeint(to_decode)
+                    #return decoded_int
+                    decoded_dict[past_key] = int(decoded_int)
+                    # print decoded_dict
+                    past_key = ""
+                    key = True
+                    i = x + 1
+                    # print ben[i]
+                    continue
+                else:    
+                    return "Something Wrong!"
             else:
                 i += 1                                 
         return decoded_dict
@@ -109,9 +173,16 @@ def debencodeint(ben):
         return "Oops, Looks like you didnt send a bencoded int!"
     elif ben[0] == "i" and ben[1] == "e" and len(ben) == 2:
         return 0
+    elif ben[1] == "+":
+        decoded_integer = debencodeint(ben.replace("+",""))
+        return int(decoded_integer)
+    elif ben[1] == "-":
+        decoded_integer += "-"
+        decoded_integer += str(debencodeint(ben.replace("-","")))
+        return int(decoded_integer)
     elif not RepresentsInt(ben[1]):
         return "There is no integer"
-    elif RepresentsInt(ben[i]) or ben[i] == "+" or ben[i] == "-":
+    elif RepresentsInt(ben[i]):
         while( RepresentsInt(ben[i]) ):
             decoded_integer += ben[i]
             i += 1
