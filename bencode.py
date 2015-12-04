@@ -17,7 +17,7 @@ def debencodelist(ben):#Decode bencoded List
     elif ben[0] == "l" and ben[len(ben)-1] == "e" and len(ben) > 2:
         # print "String to be decoded is: "+ben
         i = 1
-        print "Hello"
+        # print "Hello"
         while i < len(ben):
             #if i != 0 or i != len(ben)-1:
                 el = ""
@@ -37,10 +37,10 @@ def debencodelist(ben):#Decode bencoded List
                         # print "Element Length: "+str(elementLength),
                         # print ",Element is: ",
                         for x in range(i,i+elementLength):
-                            print ben[x],
+                            # print ben[x],
                             listElement += ben[x]
                         decoded_list.append(listElement)    
-                        print "\n"    
+                        # print "\n"    
                         i += elementLength    
                         # print "Saleem"
                         # print i
@@ -111,7 +111,7 @@ def debencodeint(ben):
         return 0
     elif not RepresentsInt(ben[1]):
         return "There is no integer"
-    elif RepresentsInt(ben[i]):
+    elif RepresentsInt(ben[i]) or ben[i] == "+" or ben[i] == "-":
         while( RepresentsInt(ben[i]) ):
             decoded_integer += ben[i]
             i += 1

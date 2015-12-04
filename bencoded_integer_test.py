@@ -27,6 +27,12 @@ if type(value) is str and value == "There is no integer":
 else:	
 	error_count += 1
 
+value = bencode.debencodeint("i-23e")
+if type(value) is int and value == -23:
+	assertion_count += 1
+else:
+	error_count += 1
+
 
 if error_count > 0:
 	print "Status: Fail"

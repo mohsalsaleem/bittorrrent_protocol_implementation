@@ -10,7 +10,6 @@ else:
 	error_count += 1	
 
 value = bencode.debencodelist("l12:spamisforsal6:saleeme")
-print value
 if type(value) is list and set(value) == set(['spamisforsal','saleem']):	
 	assertion_count += 1
 else:
