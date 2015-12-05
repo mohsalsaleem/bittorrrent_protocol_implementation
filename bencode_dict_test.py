@@ -35,8 +35,8 @@ if type(value) is dict and set(value) == set({'piece length': 65536, 'name': 'sa
 else:
 	error_count += 1
 
-value = bencode.debencodedict("d4:spamd4:spamd4:spami+23eeee")
-if type(value) is dict and set(value) == set({'spam': {'spam': {'spam': 23}}}):
+value = bencode.debencodedict("d4:spamd4:spamd6:saleemi+23eeee")
+if type(value) is dict and set(value) == set({'spam': {'spam': {'saleem': 23}}}):
 	assertion_count += 1
 else:
 	error_count += 1

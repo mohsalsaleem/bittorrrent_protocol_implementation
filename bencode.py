@@ -146,7 +146,7 @@ def debencodedict(ben):
                         x += 1    
                     # print ben[i]
                     to_decode = ben[i:x+1]
-                    print to_decode + " value"
+                    # print to_decode + " value"
                     decoded_int = debencodeint(to_decode)
                     #return decoded_int
                     decoded_dict[past_key] = int(decoded_int)
@@ -158,14 +158,14 @@ def debencodedict(ben):
                     continue
                 elif ben[i] == "d" and RepresentsInt(ben[i+1]) and ben[i+2] == ":" and past_key != "":
                     x = i
-                    print x
+                    # print x
                     while( True ):
                         if i == len(ben)-1:
                             break
                         elif ( ben[i] == "e" and ( ben[i+1] == "l" or ben[i+1] == "d" ) ):    
                             break
                         else:
-                            print i,
+                            # print i,
                             i += 1
                     
                     # return "Nothing"
@@ -174,7 +174,7 @@ def debencodedict(ben):
                     # print i+1, ben[i+1]
                     # if RepresentsInt(ben[i])
                     to_decode = ben[x:i]
-                    print to_decode
+                    # print to_decode
                     decoded_dict_value = debencodedict(to_decode)
                     # print decoded_dict_value
                     decoded_dict[past_key] = decoded_dict_value
