@@ -35,6 +35,12 @@ if type(value) is str and value == "Something Wrong!":
 else:
 	error_count += 1
 
+value = bencode.debencodelist("l4:spamd4:spamd6:saleemi+23eeee")
+# print value[1]
+if type(value) is list and value[0] == "spam" and set(value[1]) == set({'spam': {'saleem': 23}}):
+	assertion_count += 1
+else:
+	error_count += 1
 
 if error_count > 0:
 	print "Status: Fail"
