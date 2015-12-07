@@ -112,7 +112,7 @@ def debencodelist(ben):#Decode bencoded List
         return decoded_list                    
 
 def debencodedict(ben):
-    print ben
+    # print ben
     decoded_dict = {} #an empty dict
     past_key = ""
     if ben[0] == "d" and ben[len(ben)-1] == "e" and len(ben) == 2:

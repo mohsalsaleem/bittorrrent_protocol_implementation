@@ -50,7 +50,7 @@ if type(value) is dict and set(value) == set({'spam': []}):
 else:
 	error_count += 1
 
-value = bencode.debencodedict('d4:spamli2ei2eee')
+value = bencode.debencodedict('d3:subd3:key5:valueee')
 print value
 
 end = time.time()
