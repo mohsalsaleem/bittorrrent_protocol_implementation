@@ -112,6 +112,7 @@ def debencodelist(ben):#Decode bencoded List
         return decoded_list                    
 
 def debencodedict(ben):
+    print ben
     decoded_dict = {} #an empty dict
     past_key = ""
     if ben[0] == "d" and ben[len(ben)-1] == "e" and len(ben) == 2:
@@ -225,6 +226,26 @@ def debencodedict(ben):
                     key = True
                     i += 2
                     continue
+                elif ben[i] == 'l' and ben[i+1] == "e" and past_key != "":
+                    decoded_dict[past_key] = []
+                    past_key = ""
+                    key = True
+                    i += 2
+                    continue
+                # elif ben[i] == "l" and (ben[i+1] == "i" or ben[i+1] == "d" or RepresentsInt(ben[i+1]) or ben[i] == "l") and past_key != "":
+                #     x = i
+                #     i += 2
+                #     while True:
+                #         if ben[i] == "e" and ( ben[i+1] == "d" or ben[i+1] == i or RepresentsInt(ben[i+1]) ):
+                #             # i += 1
+                #             break
+                #         else:
+                #             i += 1
+                #         # print i
+                #     print i
+                #     list_to_decode = ben[x:i+1]
+                #     print list_to_decode
+                #     return "Saleem"
                 else:
                     return "Something Wrong 2!"    
             else:
